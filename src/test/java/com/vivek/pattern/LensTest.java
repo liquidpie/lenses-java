@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class LensTest {
 
     @Test
-    void testLenses() {
+    public void testLenses() {
         // Basic Lenses
         Lens<Movie, String> movieTitleLens = Lens.of(s -> s.title, Movie::withTitle);
 
@@ -32,14 +32,14 @@ public class LensTest {
         Lens<User, Integer> changeBookingSeats = userBookingLens.andThen(bookingSeatsLens);
 
         // Immutable Structure
-        User user = new User("johndoe", "jdoe@example.com", new Booking(new Show(new Movie("foo bar"), LocalDateTime.now()), 2));
+        User user = new User("johndoe", "jdoe@example.com", new Booking(new Show(new Movie("shawshank redemption"), LocalDateTime.now()), 2));
 
         // Mutations through lenses
         String username = userNameLens.get(user);
-        Assertions.assertEquals(username, "johndoe");
+        Assertions.assertEquals("johndoe", username);
 
         user = userNameLens.set(user, "janedoe");
-        Assertions.assertEquals(user.username, "janedoe");
+        Assertions.assertEquals("janedoe", user.username);
 
         user = changeMovieName.mod(user, s -> "street race");
         Assertions.assertEquals("street race", user.booking.show.movie.title);
